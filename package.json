@@ -1,0 +1,35 @@
+{
+  "dependencies": {
+    "local-storage": "^2.0.0",
+    "mysql": "^2.18.1",
+    "start": "nodemon --inspect server.js",
+    "nodemon": "^2.0.20",
+    "qs": "^6.11.0"
+  },
+  "scripts": {
+    "start": "node server.js"
+  },
+  "name": "case_md3",
+  "version": "1.0.0",
+  "main": "server.js",
+  "devDependencies": {},
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/0501my/CaseMD3.git"
+  },
+  "keywords": [
+    "nodejs",
+    "js",
+    "quản",
+    "lý",
+    "khách",
+    "sạn"
+  ],
+  "author": "dai",
+  "license": "ISC",
+  "bugs": {
+    "url": "https://github.com/0501my/CaseMD3/issues"
+  },
+  "homepage": "https://github.com/0501my/CaseMD3#readme",
+  "description": ""
+}
