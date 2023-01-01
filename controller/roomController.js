@@ -59,7 +59,7 @@ class Room extends BaseController {
     static delete = async (req, res) => {
         let data = url.parse(req.url).query;
         let {rID, status} = qs.parse(data);
-        if (status == 'available') {
+        if (status == 'still') {
          await RoomModel.deleteRoom(rID);
         }
         res.writeHead(301, { Location: '/room' });
