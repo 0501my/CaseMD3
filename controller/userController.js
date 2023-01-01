@@ -9,7 +9,6 @@ class User extends BaseController {
         let session = await this.getSessionData(req);
         let dataHTML = await this.readFile('./view/user/edit-info.html');
         let user = await UserModel.getUser(session.email);
-        console.log(user);
         dataHTML = dataHTML.replace('valueName', `value="${user.name}"`);
         dataHTML = dataHTML.replace('valueBirthDay', `value="${BaseController.formatDate(user.birthday)}"`);
         dataHTML = dataHTML.replace('valueEmail', `value="${user.email}"`);

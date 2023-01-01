@@ -14,13 +14,12 @@ class RoomModel extends Database {
         from room left join rent on room.rid = rent.rid
         where room.rid not in (select rid from rent) and room.usable = '1'`;
         let result = await this.run(sql);
-        console.log(result);
         return result;
     }
 
-    static deleteRoom (rID) {
+    static async deleteRoom (rID) {
         let sql= `update room set usable = "0" where rID = ${rID}`;
-        this.run(sql);
+       await this.run(sql);
     }
     static async addRoom (description, type, price, image) {
         let sql = `insert into room (description, type, price, image)

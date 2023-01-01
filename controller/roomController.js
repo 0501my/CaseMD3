@@ -25,13 +25,13 @@ class Room extends BaseController {
                 </td>
                 <td>
                 <button type="button" class="btn btn-success">
-                    <a href="edit-room" class="text-white">
-                        IN
+<!--                    <a href="edit-room" class="text-white">-->
+                        Buysing
                     </a>
                 </button>
                 <button type="button" class="btn btn-danger">
-                    <a href="delete?rID=${item.rID}&status=${item.status}" class="text-white">
-                        OUT
+<!--                    <a href="delete?rID=${item.rID}&status=${item.status}" class="text-white">-->
+                        Sell
                     </a>
                 </button>
                 </td>
@@ -60,7 +60,7 @@ class Room extends BaseController {
         let data = url.parse(req.url).query;
         let {rID, status} = qs.parse(data);
         if (status == 'available') {
-            RoomModel.deleteRoom(rID);
+         await RoomModel.deleteRoom(rID);
         }
         res.writeHead(301, { Location: '/room' });
         res.end();
@@ -92,7 +92,6 @@ class Room extends BaseController {
         if (req.method == "GET") {
 
             let room = (await RoomModel.getRoomByID(rID))[0];
-            console.log(room);
             let dataHTML = await this.readFile('./view/room/edit-room.html');
             dataHTML = dataHTML.replace('<nav></nav>', navbar);
             dataHTML = dataHTML.replace('valueRID', `value="${rID}"`);
