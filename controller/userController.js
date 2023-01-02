@@ -25,14 +25,11 @@ class User extends BaseController {
         req.on('data', chunk => {
             data += chunk;
         });
-        req.on('end', () => {
+        req.on('end', async () => {
             let user = qs.parse(data);
-            console.log("info update");
-            console.log(user);
-            UserModel.updateUserInfo(user.email, user.name, user.birthday, user.telephone, user.avatar);
+            await UserModel.updateUserInfo(user.email, user.name, user.birthday, user.telephone, user.avatar);
         });
-        console.log('user info saved');
-        res.writeHead(301, { Location: '/user/edit-info' });
+        res.writeHead(301, {Location: '/room'});
         res.end();
     }
 
@@ -40,7 +37,7 @@ class User extends BaseController {
         let cookie = qs.parse(req.headers.cookie);
         let fileName = cookie.loginTime;
         this.deleteSession(fileName);
-        res.writeHead(301, { Location: '/login' });
+        res.writeHead(301, {Location: '/login'});
         res.end();
     }
 
@@ -62,10 +59,11 @@ class User extends BaseController {
             let password = qs.parse(data).password;
             let email = session.email;
             UserModel.updateUserPassword(email, password);
-            res.writeHead(301, { Location: '/room' });
+            res.writeHead(301, {Location: '/room'});
             res.end();
         });
     }
+
 }
 
 module.exports = User;

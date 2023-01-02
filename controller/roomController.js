@@ -60,9 +60,9 @@ class Room extends BaseController {
         let data = url.parse(req.url).query;
         let {rID, status} = qs.parse(data);
         if (status == 'still') {
-         await RoomModel.deleteRoom(rID);
+            await RoomModel.deleteRoom(rID);
         }
-        res.writeHead(301, { Location: '/room' });
+        res.writeHead(301, {Location: '/room'});
         res.end();
     }
 
@@ -72,8 +72,7 @@ class Room extends BaseController {
             dataHTML = dataHTML.replace('<nav></nav>', navbar);
             res.write(dataHTML);
             res.end();
-        }
-        else {
+        } else {
             let data = '';
             req.on('data', chunk => {
                 data += chunk;
@@ -81,7 +80,7 @@ class Room extends BaseController {
             req.on('end', () => {
                 let room = qs.parse(data);
                 RoomModel.addRoom(room.description, room.type, room.price, room.image);
-                res.writeHead(301, { Location: '/room' });
+                res.writeHead(301, {Location: '/room'});
                 res.end();
             })
         }
@@ -102,15 +101,13 @@ class Room extends BaseController {
             res.writeHead(200, 'Content-Type', 'text/html');
             res.write(dataHTML);
             res.end();
-        }
-        else {
+        } else {
             let data = '';
             req.on('data', chunk => {
                 data += chunk;
             });
             req.on('end', () => {
                 let room = qs.parse(data);
-                console.log(room);
                 RoomModel.updateRoomInfo(rID, room.description, room.type, room.price, room.image);
                 res.writeHead(301, {Location: '/room'});
                 res.end();

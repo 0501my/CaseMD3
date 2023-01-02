@@ -9,8 +9,7 @@ class Login extends BaseController {
             res.writeHead(200, 'Content-Type', 'text/html');
             res.write(dataHTML);
             res.end();
-        }
-        else {
+        } else {
             let data = '';
             req.on('data', chunk => {
                 data += chunk;
@@ -22,11 +21,10 @@ class Login extends BaseController {
                     let now = Date.now().toString();
                     this.createSession(now, user.email, user.password);
                     res.setHeader('Set-Cookie', `loginTime=${now}`);
-                    res.writeHead(301, { Location: '/room' });
+                    res.writeHead(301, {Location: '/room'});
                     res.end();
-                }
-                else {
-                    res.writeHead(301, { Location: '/login/fail' });
+                } else {
+                    res.writeHead(301, {Location: '/login/fail'});
                     res.end();
                 }
             });
@@ -34,11 +32,33 @@ class Login extends BaseController {
     }
 
     static fail = async (req, res) => {
-        let dataHTML = await this.readFile('./view/login/login.html');
-        dataHTML = dataHTML.replace('<p class="text-danger"></p>', '<p class="text-danger">Incorrect email or password</p>');
-        res.writeHead(200, 'Content-Type', 'text/html');
-        res.write(dataHTML);
-        res.end();
+        if (req.method === 'GET') {
+            let dataHTML = await this.readFile('./view/login/login.html');
+            dataHTML = dataHTML.replace('<p class="text-danger"></p>', '<p class="text-danger">Incorrect email or password</p>');
+            res.writeHead(200, 'Content-Type', 'text/html');
+            res.write(dataHTML);
+            res.end();
+        } else {
+            let data1 = '';
+            req.on('data', chunk => {
+                data1 += chunk;
+            });
+            req.on('end', async () => {
+                let user = qs.parse(data1);
+                let checkUser = await UserModel.checkUser(user.email, user.password);
+                if (checkUser) {
+                    let now = Date.now().toString();
+                    this.createSession(now, user.email, user.password);
+                    res.setHeader('Set-Cookie', `loginTime=${now}`);
+                    res.writeHead(301, {Location: '/room'});
+                    res.end();
+                } else {
+                    res.writeHead(301, {Location: '/login/fail'});
+                    res.end();
+                }
+            });
+        }
+
     }
 
 }

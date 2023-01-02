@@ -1,4 +1,5 @@
 const Database = require('./database.js');
+const {DATETIME2, DATE} = require("mysql/lib/protocol/constants/types");
 
 class UserModel extends Database {
 
@@ -16,7 +17,6 @@ class UserModel extends Database {
                    from user
                    where email = "${email}";`;
         let response = await this.run(sql);
-        console.log(response)
         return response[0];
     }
 
@@ -36,10 +36,9 @@ class UserModel extends Database {
                    where email = "${email}"`;
         await this.run(sql);
     }
-
     static async signUp(user) {
         let sql = `INSERT INTO user(name, birthday, email, password, telephone, avatar)
-                   VALUES ('${user.name}', ${user.birthday}, '${user.email}', '${user.password}', ${user.telephone},${user.avatar});`
+                   VALUES ('${user.name}', '${user.birthday}', '${user.email}', '${user.password}', '${user.telephone}','${user.avatar}');`
         await this.run(sql)
     }
 
